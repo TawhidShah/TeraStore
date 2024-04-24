@@ -14,14 +14,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 const TableWrapper = ({ skeletonFiles }: { skeletonFiles: FileType[] }) => {
   const { user } = useUser();
   const [initialFiles, setInitialFiles] = useState<FileType[]>([]);
-  const [sort, setSort] = useState<"asc" | "desc">("desc");
   const [showSkeleton, setShowSkeleton] = useState(true);
 
   let [docs] = useCollection(
     user &&
       query(
         collection(db, "users", user.id, "files"),
-        orderBy("timestamp", sort),
+        orderBy("timestamp", "desc"),
       ),
   );
 
@@ -83,16 +82,6 @@ const TableWrapper = ({ skeletonFiles }: { skeletonFiles: FileType[] }) => {
     <div className="flex flex-col space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="ml-2 text-xl font-bold">Files</h2>
-        <Button
-          variant={"outline"}
-          onClick={() => {
-            setShowSkeleton(false);
-            setSort(sort === "asc" ? "desc" : "asc");
-          }}
-          className="w-36"
-        >
-          Sort By {sort === "asc" ? "Newest" : "Oldest"}
-        </Button>
       </div>
       <DataTable columns={columns} data={initialFiles}></DataTable>
     </div>
