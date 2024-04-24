@@ -8,11 +8,22 @@ import { FileIcon, defaultStyles } from "react-file-icon";
 import { fileTypeColors, fileTextColors } from "@/constants/fileTypeColors";
 import { Pen } from "lucide-react";
 import { useAppStore } from "@/store/store";
+import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<FileType>[] = [
   {
     accessorKey: "type",
-    header: "Type",
+    header: ({ column }) => {
+      return (
+        <button
+          className="flex items-center"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Type
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </button>
+      );
+    },
     cell: ({ renderValue, ...props }) => {
       const type = renderValue() as string;
       const ext = type.split("/")[1];
@@ -30,7 +41,17 @@ export const columns: ColumnDef<FileType>[] = [
   },
   {
     accessorKey: "fileName",
-    header: "Filename",
+    header: ({ column }) => {
+      return (
+        <button
+          className="flex items-center"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Filename
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </button>
+      );
+    },
     cell: ({ renderValue, ...props }) => {
       const { setFileId, setFileName, setIsRenameModalOpen } = useAppStore();
       const openRenameModal = (id: string, name: string) => {
@@ -54,7 +75,17 @@ export const columns: ColumnDef<FileType>[] = [
   },
   {
     accessorKey: "timestamp",
-    header: "Date Added",
+    header: ({ column }) => {
+      return (
+        <button
+          className="flex items-center"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date Added  
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </button>
+      );
+    },
     cell: ({ renderValue, ...props }) => {
       return (
         <div className="flex flex-col">
@@ -68,7 +99,17 @@ export const columns: ColumnDef<FileType>[] = [
   },
   {
     accessorKey: "size",
-    header: "Size",
+    header: ({ column }) => {
+      return (
+        <button
+          className="flex items-center"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Size
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </button>
+      );
+    },
     cell: ({ renderValue, ...props }) => {
       return <span>{prettyBytes(renderValue() as number)}</span>;
     },
